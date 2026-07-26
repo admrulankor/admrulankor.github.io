@@ -1,0 +1,38 @@
+<footer class="mt-auto border-t border-slate-200/80 dark:border-accent-500/15">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="font-display text-xs font-black uppercase tracking-[0.2em] text-accent-500">
+        {{ site.Title }}
+      </p>
+      <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        {{ site.Params.tagline | default "Building at the edge of the network." }}
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4">
+      {{ with site.Params.social.instagram }}
+        <a href="{{ . }}" class="nav-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+      {{ end }}
+      {{ with site.Params.social.email }}
+        <a href="{{ . }}" class="nav-link">Email</a>
+      {{ end }}
+      {{ with site.Params.social.phone }}
+        <a href="{{ . }}" class="nav-link">Phone</a>
+      {{ end }}
+      {{ with site.GetPage "/blog" }}
+        {{ with .OutputFormats.Get "RSS" }}
+          <a href="{{ .RelPermalink }}" class="nav-link" title="Subscribe to Blog">Blog RSS</a>
+        {{ end }}
+      {{ end }}
+      {{ with site.GetPage "/portfolio" }}
+        {{ with .OutputFormats.Get "RSS" }}
+          <a href="{{ .RelPermalink }}" class="nav-link" title="Subscribe to Portfolio">Portfolio RSS</a>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <p class="text-xs text-slate-400 dark:text-slate-500">
+      &copy; {{ now.Year }} {{ site.Params.author | default site.Title }}. All systems operational.
+    </p>
+  </div>
+</footer>

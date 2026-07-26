@@ -1,0 +1,311 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@source "hugo_stats.json";
+
+/*
+ * Dark mode:
+ * - Forced dark:  [data-theme="dark"]  (or legacy .dark class)
+ * - System dark:  [data-theme="system"] + prefers-color-scheme: dark
+ * Forced light never matches, so OS dark preference cannot override it.
+ * System mode stays media-query based so Dark Reader / browsers can detect it.
+ */
+@custom-variant dark {
+  &:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where([data-theme="system"], [data-theme="system"] *) {
+      @slot;
+    }
+  }
+}
+
+/* ── Design tokens ─────────────────────────────────────────── */
+@theme {
+  --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
+  --color-accent-950: #431407;
+
+  --color-surface-50: #f8fafc;
+  --color-surface-100: #f1f5f9;
+  --color-surface-200: #e2e8f0;
+  --color-surface-800: #1e293b;
+  --color-surface-900: #0f172a;
+  --color-surface-950: #020617;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Explicit color-scheme for browsers + extensions (Dark Reader, etc.) */
+  html[data-theme="light"],
+  html.light {
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"],
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html[data-theme="system"] {
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme="system"] {
+      color-scheme: dark;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    html[data-theme="system"] {
+      color-scheme: light;
+    }
+  }
+
+  body {
+    @apply font-body antialiased;
+    @apply bg-surface-50 text-slate-800;
+    @apply dark:bg-surface-950 dark:text-slate-200;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgb(249 115 22 / 0.12), transparent),
+      linear-gradient(rgb(148 163 184 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(148 163 184 / 0.06) 1px, transparent 1px);
+    background-size: 100% 100%, 48px 48px, 48px 48px;
+  }
+
+  html.dark body,
+  html[data-theme="dark"] body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgb(249 115 22 / 0.15), transparent),
+      linear-gradient(rgb(249 115 22 / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(249 115 22 / 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 48px 48px, 48px 48px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme="system"] body {
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgb(249 115 22 / 0.15), transparent),
+        linear-gradient(rgb(249 115 22 / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(249 115 22 / 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px, 48px 48px;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-black tracking-wide;
+  }
+
+  ::selection {
+    @apply bg-accent-500/30 text-inherit;
+  }
+}
+
+/* ── Sci-fi components ─────────────────────────────────────── */
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 900;
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  /* Glowing orange accent text */
+  .text-glow {
+    text-shadow:
+      0 0 8px rgb(249 115 22 / 0.55),
+      0 0 24px rgb(249 115 22 / 0.25);
+  }
+
+  /* Panel / card */
+  .scifi-panel {
+    @apply relative rounded-lg border border-slate-300/70 bg-white/70 backdrop-blur-md;
+    @apply dark:border-accent-500/20 dark:bg-surface-900/70;
+    box-shadow:
+      0 0 0 1px rgb(249 115 22 / 0.05),
+      0 8px 32px rgb(15 23 42 / 0.06);
+  }
+
+  html.dark .scifi-panel,
+  html[data-theme="dark"] .scifi-panel {
+    box-shadow:
+      0 0 0 1px rgb(249 115 22 / 0.08),
+      0 0 40px rgb(249 115 22 / 0.06),
+      inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme="system"] .scifi-panel {
+      box-shadow:
+        0 0 0 1px rgb(249 115 22 / 0.08),
+        0 0 40px rgb(249 115 22 / 0.06),
+        inset 0 1px 0 rgb(255 255 255 / 0.04);
+    }
+  }
+
+  .scifi-panel::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(90deg, transparent, rgb(249 115 22 / 0.6), transparent);
+  }
+
+  /* Corner accents on panels */
+  .scifi-corners {
+    @apply relative;
+  }
+
+  .scifi-corners::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0 rounded-lg;
+    background:
+      linear-gradient(to right, rgb(249 115 22) 2px, transparent 2px) 0 0 / 14px 2px no-repeat,
+      linear-gradient(to bottom, rgb(249 115 22) 2px, transparent 2px) 0 0 / 2px 14px no-repeat,
+      linear-gradient(to left, rgb(249 115 22) 2px, transparent 2px) 100% 0 / 14px 2px no-repeat,
+      linear-gradient(to bottom, rgb(249 115 22) 2px, transparent 2px) 100% 0 / 2px 14px no-repeat,
+      linear-gradient(to right, rgb(249 115 22) 2px, transparent 2px) 0 100% / 14px 2px no-repeat,
+      linear-gradient(to top, rgb(249 115 22) 2px, transparent 2px) 0 100% / 2px 14px no-repeat,
+      linear-gradient(to left, rgb(249 115 22) 2px, transparent 2px) 100% 100% / 14px 2px no-repeat,
+      linear-gradient(to top, rgb(249 115 22) 2px, transparent 2px) 100% 100% / 2px 14px no-repeat;
+    opacity: 0.7;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded px-5 py-2.5;
+    @apply font-display text-xs font-black uppercase tracking-[0.15em];
+    @apply bg-accent-500 text-white;
+    @apply transition-all duration-200;
+    @apply hover:bg-accent-400 hover:shadow-[0_0_24px_rgb(249_115_22_/_0.45)];
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500;
+    @apply active:scale-[0.98];
+  }
+
+  /* Ghost / secondary button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded px-5 py-2.5;
+    @apply font-display text-xs font-black uppercase tracking-[0.15em];
+    @apply border border-accent-500/40 text-accent-600 dark:text-accent-400;
+    @apply bg-transparent transition-all duration-200;
+    @apply hover:border-accent-500 hover:bg-accent-500/10 hover:shadow-[0_0_16px_rgb(249_115_22_/_0.2)];
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500;
+  }
+
+  /* Nav link */
+  .nav-link {
+    @apply font-display text-[0.7rem] font-black uppercase tracking-[0.18em];
+    @apply text-slate-600 transition-colors duration-150;
+    @apply hover:text-accent-500 dark:text-slate-300 dark:hover:text-accent-400;
+  }
+
+  .nav-link[aria-current="page"] {
+    @apply text-accent-600 dark:text-accent-400;
+    text-shadow: 0 0 12px rgb(249 115 22 / 0.4);
+  }
+
+  /* Tag / chip */
+  .tag {
+    @apply inline-flex items-center rounded border border-accent-500/30 px-2 py-0.5;
+    @apply font-display text-[0.65rem] font-black uppercase tracking-wider;
+    @apply text-accent-700 dark:text-accent-400;
+    @apply bg-accent-500/5;
+  }
+
+  .tag-link {
+    @apply no-underline transition-all duration-150;
+    @apply hover:border-accent-500 hover:bg-accent-500/15 hover:text-accent-600;
+    @apply dark:hover:text-accent-300;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500;
+  }
+
+  /* Portfolio content images */
+  .portfolio-prose img {
+    @apply rounded-lg border border-slate-200/80 dark:border-accent-500/20;
+  }
+
+  /* RSS feed control */
+  .rss-link {
+    @apply inline-flex shrink-0 items-center gap-2 rounded border border-accent-500/40 px-3 py-2;
+    @apply font-display text-[0.65rem] font-black uppercase tracking-[0.15em];
+    @apply text-accent-600 no-underline dark:text-accent-400;
+    @apply bg-accent-500/5 transition-all duration-150;
+    @apply hover:border-accent-500 hover:bg-accent-500/15 hover:shadow-[0_0_16px_rgb(249_115_22_/_0.2)];
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500;
+  }
+
+  /* Prose overrides for blog content */
+  .prose-scifi {
+    @apply prose prose-slate max-w-none dark:prose-invert;
+    @apply prose-headings:font-display prose-headings:font-black prose-headings:tracking-wide;
+    @apply prose-a:text-accent-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-accent-400;
+    @apply prose-code:text-accent-700 dark:prose-code:text-accent-300;
+    @apply prose-pre:bg-surface-900 prose-pre:border prose-pre:border-accent-500/15;
+    @apply prose-blockquote:border-accent-500 prose-blockquote:text-slate-600 dark:prose-blockquote:text-slate-400;
+    @apply prose-strong:text-slate-900 dark:prose-strong:text-slate-100;
+    @apply prose-hr:border-accent-500/20;
+  }
+
+  /* Scanline overlay (subtle) */
+  .scanlines::after {
+    content: "";
+    @apply pointer-events-none fixed inset-0 z-50 opacity-[0.03];
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgb(0 0 0 / 0.15) 2px,
+      rgb(0 0 0 / 0.15) 4px
+    );
+  }
+
+  html.dark.scanlines::after,
+  html[data-theme="dark"].scanlines::after {
+    opacity: 0.04;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme="system"].scanlines::after {
+      opacity: 0.04;
+    }
+  }
+
+  /* Theme toggle button */
+  .theme-btn {
+    @apply flex h-9 w-9 items-center justify-center rounded border;
+    @apply border-slate-300/80 bg-white/60 text-slate-600;
+    @apply dark:border-accent-500/25 dark:bg-surface-900/60 dark:text-slate-300;
+    @apply transition-all duration-150;
+    @apply hover:border-accent-500/50 hover:text-accent-500;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500;
+  }
+
+  .theme-btn[aria-pressed="true"] {
+    @apply border-accent-500 bg-accent-500/15 text-accent-600 dark:text-accent-400;
+    box-shadow: 0 0 12px rgb(249 115 22 / 0.25);
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

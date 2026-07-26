@@ -1,0 +1,96 @@
+{{ define "main" }}
+<section class="relative overflow-hidden">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 inline-flex items-center gap-2 font-display text-[0.65rem] font-black uppercase tracking-[0.25em] text-accent-500">
+          <span class="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent-500 shadow-[0_0_8px_rgb(249_115_22)]" aria-hidden="true"></span>
+          Jakarta · Online
+        </p>
+        <h1 class="text-4xl leading-tight text-slate-900 dark:text-slate-50 sm:text-5xl lg:text-6xl text-glow text-balance">
+          {{ site.Title }}
+        </h1>
+        <p class="mt-2 font-display text-sm font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+          {{ site.Params.tagline }}
+        </p>
+        <p class="mt-6 max-w-xl text-lg text-slate-600 dark:text-slate-300">
+          {{ site.Params.description }}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="{{ "portfolio/" | relURL }}" class="btn-primary">View Portfolio</a>
+          <a href="{{ "blog/" | relURL }}" class="btn-ghost">Read the Blog</a>
+        </div>
+      </div>
+
+      <div class="scifi-panel scifi-corners p-6 sm:p-8">
+        <div class="mb-4 flex items-center justify-between">
+          <span class="font-display text-[0.65rem] font-black uppercase tracking-[0.2em] text-accent-500">Telemetry</span>
+          <span class="tag">Live</span>
+        </div>
+        <dl class="grid grid-cols-2 gap-4">
+          <div class="rounded border border-slate-200/80 bg-white/50 p-4 dark:border-accent-500/10 dark:bg-surface-950/50">
+            <dt class="font-display text-[0.6rem] font-black uppercase tracking-wider text-slate-500">Projects</dt>
+            <dd class="mt-1 font-display text-2xl font-black text-accent-500">
+              {{ len (where site.RegularPages "Section" "portfolio") }}
+            </dd>
+          </div>
+          <div class="rounded border border-slate-200/80 bg-white/50 p-4 dark:border-accent-500/10 dark:bg-surface-950/50">
+            <dt class="font-display text-[0.6rem] font-black uppercase tracking-wider text-slate-500">Posts</dt>
+            <dd class="mt-1 font-display text-2xl font-black text-accent-500">
+              {{ len (where site.RegularPages "Section" "blog") }}
+            </dd>
+          </div>
+          <div class="col-span-2 rounded border border-slate-200/80 bg-white/50 p-4 dark:border-accent-500/10 dark:bg-surface-950/50">
+            <dt class="font-display text-[0.6rem] font-black uppercase tracking-wider text-slate-500">Status</dt>
+            <dd class="mt-1 text-sm text-slate-700 dark:text-slate-300">
+              Web development · IP creation · Open to collaborators &amp; investors
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{/* Featured portfolio */}}
+{{ $projects := first 3 (where site.RegularPages "Section" "portfolio") }}
+{{ if $projects }}
+<section class="border-t border-slate-200/80 dark:border-accent-500/10">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="mb-8 flex items-end justify-between gap-4">
+      <div>
+        <p class="font-display text-[0.65rem] font-black uppercase tracking-[0.25em] text-accent-500">Portfolio</p>
+        <h2 class="mt-1 text-2xl text-slate-900 dark:text-slate-50 sm:text-3xl">Selected Work</h2>
+      </div>
+      <a href="{{ "portfolio/" | relURL }}" class="nav-link hidden sm:inline">All projects →</a>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {{ range $projects }}
+        {{ partial "card-project.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{/* Latest posts */}}
+{{ $posts := first 3 (where site.RegularPages "Section" "blog") }}
+{{ if $posts }}
+<section class="border-t border-slate-200/80 dark:border-accent-500/10">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="mb-8 flex items-end justify-between gap-4">
+      <div>
+        <p class="font-display text-[0.65rem] font-black uppercase tracking-[0.25em] text-accent-500">Blog</p>
+        <h2 class="mt-1 text-2xl text-slate-900 dark:text-slate-50 sm:text-3xl">Latest Transmissions</h2>
+      </div>
+      <a href="{{ "blog/" | relURL }}" class="nav-link hidden sm:inline">All posts →</a>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {{ range $posts }}
+        {{ partial "card-post.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}

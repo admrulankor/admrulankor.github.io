@@ -1,0 +1,39 @@
+{{ define "main" }}
+{{/* Kind: term — e.g. /tags/hugo/ (pages with this term) */}}
+<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+  {{ $count := .Pages.Len }}
+  {{ $plural := .Data.Plural | default "tags" }}
+  {{ partial "page-header.html" (dict
+    "title" .Title
+    "subtitle" (printf "%d %s tagged with this signal." $count (cond (eq $count 1) "item" "items"))
+    "eyebrow" ($plural | title)
+  ) }}
+
+  {{ with .Content }}
+    <div class="prose-scifi mb-10">
+      {{ . }}
+    </div>
+  {{ end }}
+
+  {{ $pages := .Pages.ByDate.Reverse }}
+  {{ if $pages }}
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {{ range $pages }}
+        {{ if eq .Section "portfolio" }}
+          {{ partial "card-project.html" . }}
+        {{ else }}
+          {{ partial "card-post.html" . }}
+        {{ end }}
+      {{ end }}
+    </div>
+  {{ else }}
+    <p class="text-slate-500 dark:text-slate-400">No content under this term yet.</p>
+  {{ end }}
+
+  <footer class="mt-12 border-t border-slate-200/80 pt-8 dark:border-accent-500/15">
+    {{ with site.GetPage $plural }}
+      <a href="{{ .RelPermalink }}" class="btn-ghost">← All {{ $plural }}</a>
+    {{ end }}
+  </footer>
+</div>
+{{ end }}

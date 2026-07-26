@@ -1,0 +1,21 @@
+{{/*
+  Renders clickable tag links for a page.
+  Usage: {{ partial "tags.html" (dict "page" . "limit" 3 "class" "mt-4") }}
+  - page  (required): page whose tags to show
+  - limit (optional): max tags to show; omit for all
+  - class (optional): extra classes on the wrapper
+*/}}
+{{ $page := .page }}
+{{ $limit := .limit }}
+{{ $class := .class | default "" }}
+{{ with $page.GetTerms "tags" }}
+  {{ $terms := . }}
+  {{ if $limit }}
+    {{ $terms = first $limit . }}
+  {{ end }}
+  <div class="flex flex-wrap gap-1.5 {{ $class }}">
+    {{ range $terms }}
+      <a href="{{ .RelPermalink }}" class="tag tag-link">{{ .LinkTitle }}</a>
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,78 @@
+{{ define "main" }}
+<article class="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+  <header class="mb-10 border-b border-slate-200/80 pb-8 dark:border-accent-500/15">
+    <p class="mb-2 font-display text-[0.65rem] font-black uppercase tracking-[0.25em] text-accent-500">
+      Project File
+    </p>
+    <h1 class="text-3xl text-slate-900 dark:text-slate-50 sm:text-4xl text-glow text-balance">
+      {{ .Title }}
+    </h1>
+    {{ with .Description }}
+      <p class="mt-3 text-lg text-slate-600 dark:text-slate-400">{{ . }}</p>
+    {{ end }}
+
+    {{ partial "tags.html" (dict "page" . "class" "mt-6") }}
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      {{ with .Params.demo }}
+        <a href="{{ . }}" class="btn-primary" target="_blank" rel="noopener noreferrer">Live demo</a>
+      {{ end }}
+      {{ with .Params.repo }}
+        <a href="{{ . }}" class="btn-ghost" target="_blank" rel="noopener noreferrer">Source code</a>
+      {{ end }}
+    </div>
+  </header>
+
+  {{ with .Params.image }}
+    <figure class="scifi-panel mb-10 overflow-hidden">
+      <img
+        src="{{ . | relURL }}"
+        alt="{{ $.Title }}"
+        class="max-h-[28rem] w-full object-cover object-top"
+        loading="eager"
+        decoding="async"
+      >
+    </figure>
+  {{ end }}
+
+  {{ with .Params.meta }}
+    <div class="scifi-panel mb-10 grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4">
+      {{ range $k, $v := . }}
+        <div>
+          <p class="font-display text-[0.6rem] font-black uppercase tracking-wider text-slate-500">{{ $k }}</p>
+          <p class="mt-1 text-sm text-slate-800 dark:text-slate-200">{{ $v }}</p>
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+
+  <div class="prose-scifi portfolio-prose">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.images }}
+    {{ if gt (len .) 1 }}
+      <section class="mt-12" aria-label="Project gallery">
+        <h2 class="mb-4 font-display text-sm font-black uppercase tracking-[0.2em] text-accent-500">Gallery</h2>
+        <div class="grid gap-4 sm:grid-cols-2">
+          {{ range . }}
+            <a href="{{ . | relURL }}" class="scifi-panel block overflow-hidden" target="_blank" rel="noopener">
+              <img
+                src="{{ . | relURL }}"
+                alt=""
+                class="aspect-[4/3] w-full object-cover object-top transition hover:scale-[1.02]"
+                loading="lazy"
+                decoding="async"
+              >
+            </a>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+
+  <footer class="mt-12 border-t border-slate-200/80 pt-8 dark:border-accent-500/15">
+    <a href="{{ "portfolio/" | relURL }}" class="btn-ghost">← Back to portfolio</a>
+  </footer>
+</article>
+{{ end }}

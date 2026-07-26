@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}" class="scanlines">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  {{/* Prevent FOUC: apply stored theme before paint.
+       System mode leaves color-scheme as "light dark" and uses prefers-color-scheme
+       so browsers / Dark Reader can detect OS theme. Forced modes set explicit scheme. */}}
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme") || "system";
+        if (t !== "light" && t !== "dark" && t !== "system") t = "system";
+        var root = document.documentElement;
+        root.dataset.theme = t;
+        root.classList.toggle("dark", t === "dark");
+        root.classList.toggle("light", t === "light");
+        var meta = document.querySelector('meta[name="color-scheme"]');
+        if (t === "system") {
+          root.style.removeProperty("color-scheme");
+          if (meta) meta.setAttribute("content", "light dark");
+        } else if (t === "dark") {
+          root.style.colorScheme = "dark";
+          if (meta) meta.setAttribute("content", "dark");
+        } else {
+          root.style.colorScheme = "light";
+          if (meta) meta.setAttribute("content", "light");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Summary }}{{ . | plainify | truncate 160 }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "head-rss.html" . }}
+
+  {{/* Google Fonts: Orbitron + Inter */}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+
+  {{ with (templates.Defer (dict "key" "global")) }}
+    {{ partial "css.html" . }}
+  {{ end }}
+
+  {{ with resources.Get "js/theme.js" }}
+    {{ $js := . | js.Build (dict "minify" (not hugo.IsDevelopment)) }}
+    <script src="{{ $js.RelPermalink }}" defer></script>
+  {{ end }}
+
+  {{ block "head" . }}{{ end }}
+</head>
+<body class="min-h-screen flex flex-col">
+  {{ partial "header.html" . }}
+
+  <main class="flex-1 w-full">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+</body>
+</html>

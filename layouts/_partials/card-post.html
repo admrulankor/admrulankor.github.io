@@ -1,0 +1,16 @@
+<article class="scifi-panel group flex h-full flex-col overflow-hidden transition hover:border-accent-500/40">
+  <div class="flex h-full flex-col p-5 sm:p-6">
+    <a href="{{ .RelPermalink }}" class="flex flex-1 flex-col no-underline">
+      <time class="font-display text-[0.6rem] font-black uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400" datetime="{{ .Date.Format "2006-01-02" }}">
+        {{ .Date.Format "Jan 02, 2006" }}
+      </time>
+      <h3 class="mt-2 text-lg text-slate-900 transition group-hover:text-accent-500 dark:text-slate-50 dark:group-hover:text-accent-400">
+        {{ .Title }}
+      </h3>
+      <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        {{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 140 }}{{ end }}
+      </p>
+    </a>
+    {{ partial "tags.html" (dict "page" . "limit" 3 "class" "mt-4") }}
+  </div>
+</article>

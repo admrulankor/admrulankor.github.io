@@ -1,0 +1,13 @@
+{{ define "main" }}
+<article class="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+  {{ partial "page-header.html" (dict
+    "title" .Title
+    "subtitle" (.Description | default "")
+    "eyebrow" (.Params.eyebrow | default "Page")
+  ) }}
+
+  <div class="prose-scifi">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

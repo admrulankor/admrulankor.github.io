@@ -1,0 +1,28 @@
+<article class="scifi-panel scifi-corners group flex h-full flex-col overflow-hidden transition hover:border-accent-500/40">
+  {{ with .Params.image }}
+    <a href="{{ $.RelPermalink }}" class="block overflow-hidden border-b border-slate-200/80 dark:border-accent-500/15" tabindex="-1" aria-hidden="true">
+      <img
+        src="{{ . | relURL }}"
+        alt=""
+        class="aspect-[16/10] w-full object-cover object-top transition duration-300 group-hover:scale-[1.03]"
+        loading="lazy"
+        decoding="async"
+      >
+    </a>
+  {{ end }}
+  <div class="flex h-full flex-col p-5 sm:p-6">
+    {{ partial "tags.html" (dict "page" . "limit" 3 "class" "mb-3") }}
+    <a href="{{ .RelPermalink }}" class="flex flex-1 flex-col no-underline">
+      <h3 class="text-lg text-slate-900 transition group-hover:text-accent-500 dark:text-slate-50 dark:group-hover:text-accent-400">
+        {{ .Title }}
+      </h3>
+      <p class="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        {{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 120 }}{{ end }}
+      </p>
+      <span class="mt-4 inline-flex items-center gap-1 font-display text-[0.65rem] font-black uppercase tracking-[0.15em] text-accent-600 dark:text-accent-400">
+        View project
+        <span aria-hidden="true" class="transition group-hover:translate-x-0.5">→</span>
+      </span>
+    </a>
+  </div>
+</article>

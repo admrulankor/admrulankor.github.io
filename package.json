@@ -1,0 +1,19 @@
+{
+  "name": "rulankor",
+  "version": "1.0.0",
+  "description": "Personal site for Gibran Alfaro — portfolio and blog, Hugo + Tailwind.",
+  "private": true,
+  "scripts": {
+    "dev": "hugo server -D",
+    "build": "hugo --minify --gc",
+    "clean": "hugo --gc"
+  },
+  "keywords": ["hugo", "tailwind", "portfolio", "blog"],
+  "author": "Gibran Alfaro",
+  "license": "CC-BY-SA-4.0",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/typography": "^0.5.20",
+    "tailwindcss": "^4.3.3"
+  }
+}

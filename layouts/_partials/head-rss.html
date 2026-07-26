@@ -1,0 +1,40 @@
+{{/*
+  RSS discovery: exactly one <link rel="alternate"> per feed URL.
+  Prefer the most relevant feed first for the current page context.
+*/}}
+{{ $emitted := dict }}
+
+{{/* 1) Current page feed (home, section lists) */}}
+{{ with .OutputFormats.Get "RSS" }}
+  {{ if not (index $emitted .Permalink) }}
+    {{ $title := $.Title | default site.Title }}
+    {{ if $.IsHome }}{{ $title = printf "%s — All updates" site.Title }}{{ end }}
+    <link rel="alternate" type="application/rss+xml" title="{{ $title }}" href="{{ .Permalink }}">
+    {{ $emitted = merge $emitted (dict .Permalink true) }}
+  {{ end }}
+{{ end }}
+
+{{/* 2) Section feed when viewing a post/project inside that section */}}
+{{ if and (not .IsHome) (not .IsSection) .Section }}
+  {{ with site.GetPage (printf "/%s" .Section) }}
+    {{ with .OutputFormats.Get "RSS" }}
+      {{ if not (index $emitted .Permalink) }}
+        <link rel="alternate" type="application/rss+xml" title="{{ $.Section | title }}" href="{{ .Permalink }}">
+        {{ $emitted = merge $emitted (dict .Permalink true) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* 3) Site-wide Blog + Portfolio feeds (skip if already emitted) */}}
+{{ range slice "blog" "portfolio" }}
+  {{ with site.GetPage (printf "/%s" .) }}
+    {{ $sectionTitle := .Title }}
+    {{ with .OutputFormats.Get "RSS" }}
+      {{ if not (index $emitted .Permalink) }}
+        <link rel="alternate" type="application/rss+xml" title="{{ $sectionTitle }}" href="{{ .Permalink }}">
+        {{ $emitted = merge $emitted (dict .Permalink true) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

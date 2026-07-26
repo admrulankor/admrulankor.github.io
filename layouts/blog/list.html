@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+  {{ partial "page-header.html" (dict
+    "title" .Title
+    "subtitle" (.Description | default "Notes, deep dives, and field reports from the lab.")
+    "eyebrow" "Blog"
+    "rssPage" .
+  ) }}
+
+  {{ with .Content }}
+    <div class="prose-scifi mb-10">
+      {{ . }}
+    </div>
+  {{ end }}
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {{ range .Pages.ByDate.Reverse }}
+      {{ partial "card-post.html" . }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}
