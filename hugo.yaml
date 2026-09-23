@@ -61,6 +61,10 @@ outputs:
     - HTML
     - RSS
 
+caches:
+  images:
+    dir: :cacheDir/images
+
 security:
   exec:
     allow:
