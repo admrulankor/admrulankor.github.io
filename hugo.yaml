@@ -70,3 +70,4 @@ security:
       - '^npx$'
       - '^postcss$'
       - '^tailwindcss$'   
+      - '^node$'
