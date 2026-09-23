@@ -17,7 +17,7 @@ This site is built with **Hugo Extended** and **Tailwind CSS v4**, using Hugo's 
 - Hugo generates pages from Markdown and Go templates
 - Tailwind scans `hugo_stats.json` for class names used in templates
 - A small theme script handles **light / dark / system** preferences
-- Google Fonts load **Orbitron** for headings and **Noto Sans** for body text
+- Google Fonts load **Orbitron** for headings and **Inter** for body text
 
 ## Theme tokens
 
