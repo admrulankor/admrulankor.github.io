@@ -6,27 +6,8 @@
 # Setup required once (GitLab OAuth app) — see backend.app_id comments below.
 
 backend:
-  name: gitlab
-  repo: admrulankor/personal-site
-  branch: main
-  # Self-hosted GitLab
-  base_url: https://forge.lokifrak.com
-  api_root: https://forge.lokifrak.com/api/v4
-  # PKCE enables the "Login with GitLab" button (recommended)
-  auth_type: pkce
-  # Paste the Application ID from your GitLab OAuth app:
-  #   https://forge.lokifrak.com/-/user_settings/applications
-  #   (or Admin → Applications for an instance-wide app)
-  #
-  # App settings:
-  #   Name:           Rulankor Sveltia CMS
-  #   Redirect URI:   https://rulankor.lokifrak.com/admin/
-  #                   http://localhost:1313/admin/   (optional, for local hugo server)
-  #   Confidential:   unchecked (OFF)
-  #   Scopes:         api
-  app_id: 1e570dc8dcf1f7f9efc0bd1e011ffeeadd6f3a861060bd90c706e86bd7a67a56
-  # Prefer OAuth; token login remains available as a fallback until app_id is set.
-  auth_methods: [oauth, token]
+  name: github
+  repo: admrulankor/admrulankor.github.io     # Your GitHub username or group and repo name
 
 # Site identity (used by CMS for links / previews)
 site_url: https://rulankor.lokifrak.com
