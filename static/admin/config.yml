@@ -10,8 +10,8 @@ backend:
   repo: admrulankor/admrulankor.github.io     # Your GitHub username or group and repo name
 
 # Site identity (used by CMS for links / previews)
-site_url: https://www.rulankor.my.id
-display_url: https://www.rulankor.my.id
+site_url: https://www.rulankor.my.id/
+display_url: https://www.rulankor.my.id/
 logo_url: https://www.rulankor.my.id/
 
 # Media uploads live under static/ and are served at /images/...
