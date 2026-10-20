@@ -1,4 +1,4 @@
-<footer class="mt-auto border-t border-slate-200/80 dark:border-slate-700/60">
+<footer class="signal-rule signal-rule-top signal-bar mt-auto border-t border-slate-200/80 dark:border-slate-700/60">
   <div class="site-shell py-9">
     <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
       <div>
@@ -13,6 +13,9 @@
         {{ with site.GetPage "/portfolio" }}{{ with .OutputFormats.Get "RSS" }}<a href="{{ .RelPermalink }}" class="nav-link">Portfolio RSS</a>{{ end }}{{ end }}
       </div>
     </div>
-    <p class="mt-8 text-xs text-slate-500 dark:text-slate-400">&copy; {{ now.Year }} {{ site.Params.author | default site.Title }}</p>
+    <p class="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs text-slate-500 dark:text-slate-400">
+      <span>&copy; {{ now.Year }} {{ site.Params.author | default site.Title }}</span>
+      <span class="font-display text-[0.6rem] font-bold uppercase tracking-[0.18em]">Jakarta · 06.18°S 106.83°E</span>
+    </p>
   </div>
 </footer>

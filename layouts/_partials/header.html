@@ -1,6 +1,9 @@
-<header class="sticky top-0 z-40 border-b border-slate-200/80 bg-surface-50/95 backdrop-blur-md dark:border-slate-700/60 dark:bg-surface-950/95">
+<header class="signal-rule signal-bar sticky top-0 z-40 border-b border-slate-200/80 bg-surface-50/95 backdrop-blur-md dark:border-slate-700/60 dark:bg-surface-950/95">
   <div class="site-shell flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4">
-    <a href="{{ "/" | relURL }}" class="font-display text-xs font-bold tracking-wider text-slate-900 no-underline dark:text-slate-100">{{ site.Title }}<span class="text-accent-600 dark:text-accent-400" aria-hidden="true">_</span></a>
+    <div class="flex items-center gap-4 sm:gap-5">
+      <a href="{{ "/" | relURL }}" class="font-display text-xs font-bold tracking-wider text-slate-900 no-underline dark:text-slate-100">{{ site.Title }}<span class="term-cursor" aria-hidden="true">_</span></a>
+      <p class="signal-status hidden sm:inline-flex" aria-hidden="true"><span class="signal-pip"></span>Uplink</p>
+    </div>
     <div class="hidden items-center gap-8 md:flex">
       <nav class="flex items-center gap-6" aria-label="Main">
         {{ range site.Menus.main }}
