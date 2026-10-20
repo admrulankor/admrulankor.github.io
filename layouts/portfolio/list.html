@@ -1,5 +1,5 @@
 {{ define "main" }}
-<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+<div class="site-shell py-12 sm:py-16">
   {{ partial "page-header.html" (dict
     "title" .Title
     "subtitle" (.Description | default "Selected missions, builds, and experiments.")
@@ -8,7 +8,7 @@
   ) }}
 
   {{ with .Content }}
-    <div class="prose-scifi mb-10">
+    <div class="reading-prose mb-10">
       {{ . }}
     </div>
   {{ end }}
